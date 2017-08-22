@@ -105,8 +105,19 @@ class LinkedList
       to_s(output, current_node.next_node)
     end
   end
-end
 
+  def insert_at(index, node, current_node=@head, counter=0)
+    if index < 0 || index >= self.count
+      puts "Supplied index out of bounds; consider using append or prepend instead."
+      return nil
+    elsif counter == index -1
+      node.next_node = current_node.next_node
+      current_node.next_node = node
+    else
+      insert_at(index, node, current_node.next_node, counter + 1)
+    end
+  end
+end
 
 list = LinkedList.new
 node_a = Node.new("A")
@@ -114,6 +125,7 @@ node_b = Node.new("B")
 node_c = Node.new("c")
 node_d = Node.new("d")
 node_e = Node.new("e")
+node_f = Node.new("Fart")
 
 list.append(node_a)
 list.append(node_b)
@@ -121,4 +133,7 @@ list.append(node_c)
 list.append(node_d)
 list.append(node_e)
 
+
+puts list.to_s
+list.insert_at(4, node_f)
 puts list.to_s
