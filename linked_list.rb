@@ -51,12 +51,58 @@ class LinkedList
   end
 
   def at(index, current_node=@head, count=0)
-    if count == index - 1
+    if count == index
       return current_node.value
     elsif current_node.next_node == nil
       return "Index not found."
     else
       at(index, current_node.next_node, count + 1)
+    end
+  end
+
+  def pop(current_node=@head)
+    if current_node.next_node.next_node == nil
+      popped = @tail
+      @tail = current_node
+      current_node.next_node = nil
+      return popped
+    else
+      pop(current_node.next_node)
+    end
+  end
+
+  def contains?(query, current_node=@head)
+    if current_node.value == query
+      return true
+    else
+      if current_node.next_node == nil
+        return false
+      else
+        contains?(query, current_node.next_node)
+      end
+    end
+  end
+
+  def find(data, current_node=@head, count=0)
+    if current_node.value == data
+      return count
+    else
+      if current_node.next_node == nil
+        return "Query not found."
+      else
+        count += 1
+        find(data, current_node.next_node, count)
+      end
+    end
+  end
+
+  def to_s(output="", current_node=@head)
+    if current_node == nil
+      output << "nil"
+      return output
+    else
+      output << "#{current_node} -> "
+      to_s(output, current_node.next_node)
     end
   end
 end
@@ -75,5 +121,4 @@ list.append(node_c)
 list.append(node_d)
 list.append(node_e)
 
-puts list.count
-puts list.at(3)
+puts list.to_s
