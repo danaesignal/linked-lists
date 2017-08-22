@@ -113,8 +113,23 @@ class LinkedList
     elsif counter == index -1
       node.next_node = current_node.next_node
       current_node.next_node = node
+      @head = node if index == 0
     else
       insert_at(index, node, current_node.next_node, counter + 1)
+    end
+  end
+
+  def remove_at(index, current_node=@head, counter=0)
+    if index < 0 || index >= self.count
+      puts "Supplied index out of bounds; consider using append or prepend instead."
+      return nil
+    elsif index == 0
+      @head = @head.next_node
+    elsif counter == index -1
+      current_node.next_node = current_node.next_node.next_node
+      @tail = current_node if current_node.next_node == nil
+    else
+      remove_at(index, current_node.next_node, counter + 1)
     end
   end
 end
@@ -137,3 +152,9 @@ list.append(node_e)
 puts list.to_s
 list.insert_at(4, node_f)
 puts list.to_s
+list.remove_at(4)
+puts list.to_s
+puts list.tail
+list.remove_at(4)
+puts list.to_s
+puts list.tail
